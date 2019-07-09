@@ -14,14 +14,20 @@ static int hotplug_callback(struct libusb_context *ctx, struct libusb_device *de
 							libusb_hotplug_event event,	void *Data)
 {
 	uint8_t deviceAdd = libusb_get_device_address(device);
+	struct libusb_device_descriptor ldDesc_st;
+	libusb_get_device_descriptor(device, &ldDesc_st);
 
 	if(event == LIBUSB_HOTPLUG_EVENT_DEVICE_ARRIVED)
 	{
 		printf("设备连接.\n");
+		printf("设备地址：%d\n",deviceAdd);
+		printf("设备VID：%04x\n",ldDesc_st.idVendor);
 	}else{
 		if(event == LIBUSB_HOTPLUG_EVENT_DEVICE_LEFT)
 		{
 			printf("设备断开.\n");
+			printf("设备地址：%d\n",deviceAdd);
+			printf("设备VID：%04x\n",ldDesc_st.idVendor);
 		}
 	}
 	return 0;
